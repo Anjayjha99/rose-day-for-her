@@ -8,7 +8,7 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Georgia', serif;
     background: url("background.png.png") no-repeat center center fixed;
     background-size: cover;
     color: white;
@@ -16,23 +16,31 @@ body {
 }
 
 .overlay {
+    backdrop-filter: blur(4px);
     background: rgba(0, 0, 0, 0.45);
     min-height: 100vh;
+    padding: 30px 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 20px;
 }
 
 h1 {
-    margin-top: 30px;
-    font-size: 28px;
+    font-size: 30px;
+    margin-top: 20px;
+    letter-spacing: 1px;
 }
 
 #messageBox {
-    font-size: 22px;
+    font-size: 20px;
     margin-top: 15px;
     min-height: 60px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.show {
+    opacity: 1;
 }
 
 .rose-container {
@@ -40,43 +48,36 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 20px;
 }
 
 .rose {
-    font-size: 55px;
-    margin: 12px;
+    font-size: 65px;
     cursor: pointer;
     transition: transform 0.3s ease, filter 0.3s ease;
-    animation: glow 2s infinite alternate;
+    filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.6));
 }
 
 .rose:hover {
-    transform: scale(1.3);
+    transform: scale(1.2);
 }
 
 .active {
-    transform: scale(1.4);
-    filter: drop-shadow(0 0 12px #ff4da6);
-}
-
-@keyframes glow {
-    from {
-        filter: drop-shadow(0 0 5px #ff4da6);
-    }
-    to {
-        filter: drop-shadow(0 0 15px #ff99cc);
-    }
+    transform: scale(1.3);
+    filter: drop-shadow(0 0 18px rgba(255, 105, 180, 0.9));
 }
 
 @media (min-width: 768px) {
     h1 {
-        font-size: 38px;
+        font-size: 40px;
     }
+
     #messageBox {
         font-size: 26px;
     }
+
     .rose {
-        font-size: 70px;
+        font-size: 80px;
     }
 }
 </style>
@@ -88,7 +89,7 @@ h1 {
 
 <div>
 <h1>Happy Rose Day My Love ❤️</h1>
-<div id="messageBox">Happy Rose Day ❤️</div>
+<div id="messageBox">I choose you. Today. Tomorrow. Always. 💍</div>
 </div>
 
 <div class="rose-container" id="roses"></div>
@@ -96,40 +97,44 @@ h1 {
 </div>
 
 <script>
+
 const messages = [
-"You are my forever and always ❤️",
-"Every rose here carries a heartbeat just for you 💖",
-"You make my world brighter every single day 🌹",
-"My favorite place is wherever you are ✨",
-"I fall for you more and more each day 💕",
-"You are my peace in this chaotic world 🤍",
-"Your smile is my daily happiness 😍",
-"With you, even ordinary days feel magical 💫",
-"I choose you. Today. Tomorrow. Always. 💍",
-"You are my once in a lifetime love 💘",
-"My heart found its home in you 🏡❤️",
-"You are my beautiful destiny 🌸",
-"Every moment with you is priceless 💎",
-"You are the best decision of my life 💖",
-"And I promise to keep loving you endlessly ❤️"
+"You are my forever ❤️",
+"Every moment with you feels magical ✨",
+"You are my favorite person in this world 💖",
+"My heart feels safest with you 🤍",
+"I fall in love with you more every day 🌹",
+"You are my once in a lifetime 💘",
+"I want every tomorrow with you 💍",
+"And I will always choose you ❤️"
 ];
 
 const roseContainer = document.getElementById("roses");
 const messageBox = document.getElementById("messageBox");
 
-for (let i = 0; i < 15; i++) {
+for (let i = 0; i < 8; i++) {
+
     const rose = document.createElement("span");
     rose.innerHTML = (i % 2 === 0) ? "🌹" : "🌸";
     rose.classList.add("rose");
 
     rose.onclick = function () {
+
         document.querySelectorAll(".rose").forEach(r => r.classList.remove("active"));
+
         rose.classList.add("active");
-        messageBox.innerText = messages[i];
+
+        messageBox.classList.remove("show");
+
+        setTimeout(() => {
+            messageBox.innerText = messages[i];
+            messageBox.classList.add("show");
+        }, 200);
     };
 
     roseContainer.appendChild(rose);
 }
+
 </script>
 
 </body>
