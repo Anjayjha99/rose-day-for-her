@@ -12,10 +12,11 @@ body {
     background: url("background.png.png") no-repeat center center fixed;
     background-size: cover;
     color: white;
+    overflow: hidden;
 }
 
 .overlay {
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.5);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -27,40 +28,66 @@ body {
 
 h1 {
     font-size: 28px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 #message {
-    font-size: 20px;
-    min-height: 60px;
-    margin-bottom: 40px;
-    transition: opacity 0.5s ease;
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 320px;
+    min-height: 100px;
+    margin-bottom: 30px;
 }
 
 .rose {
-    font-size: 90px;
+    font-size: 100px;
     cursor: pointer;
     animation: glow 2s infinite alternate;
-    transition: transform 0.4s ease;
+    transition: transform 0.3s ease;
 }
 
 .rose:active {
     transform: scale(1.2);
 }
 
-@keyframes glow {
-    from {
-        filter: drop-shadow(0 0 8px rgba(255,105,180,0.6));
-    }
+.bouquet {
+    font-size: 90px;
+    opacity: 0;
+    transform: translateY(80px);
+    transition: all 1.2s ease;
+    margin-top: 20px;
+}
+
+.showBouquet {
+    opacity: 1;
+    transform: translateY(0);
+    filter: drop-shadow(0 0 20px pink);
+}
+
+.petal {
+    position: fixed;
+    top: -20px;
+    font-size: 20px;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
     to {
-        filter: drop-shadow(0 0 18px rgba(255,105,180,1));
+        transform: translateY(100vh);
+        opacity: 0;
     }
+}
+
+@keyframes glow {
+    from { filter: drop-shadow(0 0 8px rgba(255,105,180,0.6)); }
+    to { filter: drop-shadow(0 0 20px rgba(255,105,180,1)); }
 }
 
 @media (min-width: 768px) {
     h1 { font-size: 38px; }
-    #message { font-size: 26px; }
-    .rose { font-size: 120px; }
+    #message { font-size: 20px; max-width: 500px; }
+    .rose { font-size: 130px; }
+    .bouquet { font-size: 120px; }
 }
 </style>
 </head>
@@ -70,34 +97,66 @@ h1 {
 <div class="overlay">
 
 <h1>Happy Rose Day My Love ❤️</h1>
-<div id="message">Tap the rose 🌹</div>
 
-<div class="rose" onclick="nextMessage()">🌹</div>
+<div id="message"></div>
+
+<div class="rose" onclick="startLove()">🌹</div>
+
+<div id="bouquet" class="bouquet">💐🌹🌸🌹💐</div>
 
 </div>
 
 <script>
-const messages = [
-"I choose you. ❤️",
-"Today. Tomorrow. Always.",
-"You are my safest place 🤍",
-"Every day with you feels special ✨",
-"My heart is happiest with you 💖",
-"And I’ll keep choosing you… forever 💍"
-];
+
+const text = 
+"I choose you. ❤️\n" +
+"Today. Tomorrow. Always.\n" +
+"You are my safest place 🤍\n" +
+"Every day with you feels special ✨\n" +
+"My heart is happiest with you 💖\n" +
+"And I’ll keep choosing you… forever 💍";
 
 let index = 0;
+let started = false;
+
 const messageBox = document.getElementById("message");
+const bouquet = document.getElementById("bouquet");
 
-function nextMessage() {
-    messageBox.style.opacity = 0;
+function startLove() {
 
-    setTimeout(() => {
-        messageBox.innerText = messages[index];
-        messageBox.style.opacity = 1;
-        index = (index + 1) % messages.length;
-    }, 300);
+    if (started) return;
+    started = true;
+
+    const interval = setInterval(() => {
+
+        messageBox.innerHTML += text[index] === "\n" ? "<br>" : text[index];
+        index++;
+
+        if (index >= text.length) {
+            clearInterval(interval);
+
+            setTimeout(() => {
+                bouquet.classList.add("showBouquet");
+                startPetals();
+            }, 600);
+        }
+
+    }, 50);
 }
+
+function startPetals() {
+    for (let i = 0; i < 25; i++) {
+        const petal = document.createElement("div");
+        petal.classList.add("petal");
+        petal.innerText = Math.random() > 0.5 ? "🌸" : "🌹";
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        document.body.appendChild(petal);
+
+        setTimeout(() => petal.remove(), 6000);
+    }
+}
+
 </script>
 
 </body>
