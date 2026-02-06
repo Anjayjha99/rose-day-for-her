@@ -56,12 +56,25 @@ h1 {
     transform: translateY(80px);
     transition: all 1.2s ease;
     margin-top: 20px;
+    position: relative;
 }
 
 .showBouquet {
     opacity: 1;
     transform: translateY(0);
     filter: drop-shadow(0 0 20px pink);
+}
+
+.sparkle {
+    position: absolute;
+    font-size: 18px;
+    animation: sparkleAnim 2s infinite ease-in-out;
+}
+
+@keyframes sparkleAnim {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(0.5); }
 }
 
 .petal {
@@ -82,13 +95,6 @@ h1 {
     from { filter: drop-shadow(0 0 8px rgba(255,105,180,0.6)); }
     to { filter: drop-shadow(0 0 20px rgba(255,105,180,1)); }
 }
-
-@media (min-width: 768px) {
-    h1 { font-size: 38px; }
-    #message { font-size: 20px; max-width: 500px; }
-    .rose { font-size: 130px; }
-    .bouquet { font-size: 120px; }
-}
 </style>
 </head>
 
@@ -106,9 +112,12 @@ h1 {
 
 </div>
 
+<!-- Background Music -->
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
 <script>
 
-const text = 
+const text =
 "I choose you. ❤️\n" +
 "Today. Tomorrow. Always.\n" +
 "You are my safest place 🤍\n" +
@@ -121,11 +130,14 @@ let started = false;
 
 const messageBox = document.getElementById("message");
 const bouquet = document.getElementById("bouquet");
+const music = document.getElementById("bgMusic");
 
 function startLove() {
 
     if (started) return;
     started = true;
+
+    music.play().catch(() => {});
 
     const interval = setInterval(() => {
 
@@ -138,6 +150,7 @@ function startLove() {
             setTimeout(() => {
                 bouquet.classList.add("showBouquet");
                 startPetals();
+                addSparkles();
             }, 600);
         }
 
@@ -152,8 +165,18 @@ function startPetals() {
         petal.style.left = Math.random() * 100 + "vw";
         petal.style.animationDuration = (Math.random() * 3 + 3) + "s";
         document.body.appendChild(petal);
-
         setTimeout(() => petal.remove(), 6000);
+    }
+}
+
+function addSparkles() {
+    for (let i = 0; i < 6; i++) {
+        const sparkle = document.createElement("div");
+        sparkle.classList.add("sparkle");
+        sparkle.innerText = "✨";
+        sparkle.style.top = Math.random() * 80 + "%";
+        sparkle.style.left = Math.random() * 80 + "%";
+        bouquet.appendChild(sparkle);
     }
 }
 
