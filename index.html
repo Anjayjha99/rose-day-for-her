@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Rose Day ❤️</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url("background.png") no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.45);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-top: 30px;
+            font-size: 28px;
+        }
+
+        #messageBox {
+            font-size: 22px;
+            margin-top: 15px;
+            min-height: 60px;
+            transition: 0.3s ease;
+        }
+
+        .rose-container {
+            margin-bottom: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .rose {
+            font-size: 55px;
+            margin: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            animation: glow 2s infinite alternate;
+        }
+
+        .rose:hover {
+            transform: scale(1.3);
